@@ -6,13 +6,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+#x = 1x3 np array representing a 2d data point and its label
+#w = 1x3 np array representing the weights
 def outputFunction(x,w):
     exponent = w[0] + (w[1]*x[0]) + (w[2]*x[1])
     result = 1 / (1 + exp(-exponent))
 
 def errorFunction():
+    return
+#Function to comput the Gradient
+#x = feature value from a data point
+#label = the class label of the data point
+#w = 1x3 np array representing the weights
+def gradient(x,label,output):
+    return (ouput - label) * x
 
-def batch(trainingSet,testingSet):
+
+def batch(trainingSet,testingSet,rate):
     weights = np.random.uniform(low=-0.01,high=0.01,3)
 
     iterations = 0
@@ -22,8 +32,13 @@ def batch(trainingSet,testingSet):
        for i in trainingSet:
            output =  outputFunction(i,weights)
            error += .5 * (i[2] - output)**2
-           gradient = np.array()
-
+        calculatedGradient = np.array([gradient[(1,i[2],output),
+                            gradient(i[0],i[2],output),
+                            gradient(i[1],i[2],output)])
+        #update weights
+        weights[0] += -rate * calculatedGradient[0]
+        weights[1] += -rate * calculatedGradient[1]
+        weights[2] += -rate * calculatedGradient[2]
 #Given parameters for generating 1st set of gausian numbers
 mean1 = np.array([1,0])
 dev1 = np.array([[1.0,0.75],[0.75,1.0]])
